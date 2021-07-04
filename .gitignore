@@ -85,4 +85,4 @@ Content/StarterContent/*
 /.vscode/*
 BuildingEscape.code-workspace
 
-Content/Dynamic/Levels/FirstPersonExampleMap_BuiltData.uasset
+Content/AssetPacks/*
