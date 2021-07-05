@@ -15,15 +15,24 @@ public:
 	// Sets default values for this character's properties
 	AShooterCharacterBase();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+private:
+	void MoveForward(float AxisValue);
+	void MoveRight(float AxisValue);	
+	void LookUp(float AxisValue);
+	void LookRight(float AxisValue);
+	void LookUpRate(float AxisValue);
+	void LookRightRate(float AxisValue);
+
+	UPROPERTY(EditAnywhere)
+	float RotationRate = 20;
 };
