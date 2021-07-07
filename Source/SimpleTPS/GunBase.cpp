@@ -2,7 +2,8 @@
 
 
 #include "GunBase.h"
-#include "Particles/ParticleSystemComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AGunBase::AGunBase()
@@ -13,8 +14,6 @@ AGunBase::AGunBase()
 	RootComponent = Root;
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(RootComponent);
-	Muzzle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Muzzle"));
-	Muzzle->SetupAttachment(Mesh);
 }
 
 // Called when the game starts or when spawned
@@ -29,5 +28,28 @@ void AGunBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AGunBase::Fire() 
+{
+	UE_LOG(LogTemp, Warning, TEXT("Fired"));
+	UGameplayStatics::SpawnEmitterAttached(Muzzle, Mesh, TEXT("MuzzleFlashSocket"));
+	auto OwnerPawn = Cast<APawn>(GetOwner());
+	if (!OwnerPawn) return;
+	auto OwnerController = OwnerPawn->GetController();
+	if (!OwnerController) return;
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+	FVector End = Location+Rotation.Vector()*MaxRange;
+	FHitResult Hit;
+	if(GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1)){
+		DrawDebugPoint(GetWorld(), Hit.Location, 20, FColor::Red, true);
+	}
+}
+
+void AGunBase::SecondaryFunction() 
+{
+	UE_LOG(LogTemp, Warning, TEXT("Zoom"));
 }
 

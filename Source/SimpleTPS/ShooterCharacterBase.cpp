@@ -40,6 +40,9 @@ void AShooterCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction(TEXT("Jump"),EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAxis(TEXT("LookUpRate"), this, &AShooterCharacterBase::LookUpRate);
 	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &AShooterCharacterBase::LookRightRate);
+
+	PlayerInputComponent->BindAction(TEXT("Fire"),EInputEvent::IE_Pressed, this, &AShooterCharacterBase::FireWeapon);
+	PlayerInputComponent->BindAction(TEXT("SecondaryFunction"),EInputEvent::IE_Pressed, this, &AShooterCharacterBase::UseSecondaryFunction);
 }
 
 void AShooterCharacterBase::MoveForward(float AxisValue) 
@@ -70,5 +73,21 @@ void AShooterCharacterBase::LookUpRate(float AxisValue)
 void AShooterCharacterBase::LookRightRate(float AxisValue) 
 {
 	AddControllerYawInput(AxisValue*GetWorld()->DeltaTimeSeconds*RotationRate);
+}
+
+void AShooterCharacterBase::FireWeapon() 
+{
+	if (!Gun){
+		return;
+	}
+	Gun->Fire();
+}
+
+void AShooterCharacterBase::UseSecondaryFunction() 
+{
+	if (!Gun){
+		return;
+	}
+	Gun->SecondaryFunction();
 }
 

@@ -27,6 +27,12 @@ private:
 	USceneComponent* Root = nullptr;
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* Mesh = nullptr;
-	UPROPERTY(VisibleAnywhere)
-	UParticleSystemComponent* Muzzle = nullptr;
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* Muzzle = nullptr;
+	UPROPERTY(EditAnywhere)
+	float MaxRange = 100000.0f;
+
+public:
+	void Fire();
+	void SecondaryFunction();
 };

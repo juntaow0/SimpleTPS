@@ -34,6 +34,8 @@ private:
 	void LookRight(float AxisValue);
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
+	void FireWeapon();
+	void UseSecondaryFunction();
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 20;
