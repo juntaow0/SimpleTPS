@@ -27,10 +27,14 @@ private:
 	USceneComponent* Root = nullptr;
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* Mesh = nullptr;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,Category="Effects")
 	UParticleSystem* Muzzle = nullptr;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,Category="Effects")
+	UParticleSystem* Decal = nullptr;
+	UPROPERTY(EditAnywhere, Category="Weapon Stats")
 	float MaxRange = 100000.0f;
+	UPROPERTY(EditAnywhere, Category="Weapon Stats")
+	float DamageAmount = 34.0f;
 
 public:
 	void Fire();

@@ -44,7 +44,12 @@ void AGunBase::Fire()
 	FVector End = Location+Rotation.Vector()*MaxRange;
 	FHitResult Hit;
 	if(GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1)){
-		DrawDebugPoint(GetWorld(), Hit.Location, 20, FColor::Red, true);
+		//DrawDebugPoint(GetWorld(), Hit.Location, 20, FColor::Red, true);
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Decal, Hit.ImpactPoint,Hit.ImpactNormal.Rotation());
+		auto Target = Hit.GetActor();
+		if (!Target) return;
+		FPointDamageEvent DamageEvent(DamageAmount,Hit,-Rotation.Vector(),nullptr);
+		Target->TakeDamage(DamageAmount,DamageEvent,OwnerController,this);
 	}
 }
 
