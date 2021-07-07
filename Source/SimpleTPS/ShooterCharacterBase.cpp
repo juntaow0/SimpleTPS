@@ -56,8 +56,15 @@ float AShooterCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& 
 	UE_LOG(LogTemp, Warning, TEXT("Health: %f"),Health);
 	if (Health<=0){
 		UE_LOG(LogTemp, Warning, TEXT("Actor died"));
+		IsAlive = false;
 	}
 	return DamageToApply;
+}
+
+bool AShooterCharacterBase::IsDead() const
+{
+	if (IsAlive) return false;
+	return true;
 }
 
 void AShooterCharacterBase::MoveForward(float AxisValue) 
