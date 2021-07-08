@@ -54,11 +54,13 @@ void AGunBase::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Fired"));
 	UGameplayStatics::SpawnEmitterAttached(Muzzle, Mesh, TEXT("MuzzleFlashSocket"));
+	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
 	FHitResult Hit;
 	FRotator Rotation;
 	if(Raycast(Hit, Rotation)){
 		//DrawDebugPoint(GetWorld(), Hit.Location, 20, FColor::Red, true);
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Decal, Hit.ImpactPoint,Hit.ImpactNormal.Rotation());
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), ImpactSound, Hit.Location);
 		auto Target = Hit.GetActor();
 		if (!Target) return;
 		FPointDamageEvent DamageEvent(DamageAmount,Hit,-Rotation.Vector(),nullptr);
