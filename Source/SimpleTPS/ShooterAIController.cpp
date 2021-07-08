@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "ShooterCharacterBase.h"
 
 void AShooterAIController::BeginPlay() 
 {
@@ -13,4 +14,13 @@ void AShooterAIController::BeginPlay()
         RunBehaviorTree(AIBehavior);
         GetBlackboardComponent()->SetValueAsVector(TEXT("StartLocation"),GetPawn()->GetActorLocation());
     }
+}
+
+bool AShooterAIController::IsDead() 
+{
+    auto Actor = Cast<AShooterCharacterBase>(GetPawn());
+    if (!Actor){
+        return true;
+    }
+    return Actor->IsDead();
 }

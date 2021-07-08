@@ -30,29 +30,39 @@ void AGunBase::Tick(float DeltaTime)
 
 }
 
+bool AGunBase::Raycast(FHitResult& Hit, FRotator& Rotation) 
+{
+	FVector Location;
+	auto Controller = GetOwnerController();
+	if (!Controller) return false;
+	Controller->GetPlayerViewPoint(Location, Rotation);
+	FVector End = Location+Rotation.Vector()*MaxRange;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+	return GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1,Params);
+}
+
+AController* AGunBase::GetOwnerController() const
+{
+	auto OwnerPawn = Cast<APawn>(GetOwner());
+	if (!OwnerPawn) return nullptr;
+	return OwnerPawn->GetController();
+}
+
 void AGunBase::Fire() 
 {
 	UE_LOG(LogTemp, Warning, TEXT("Fired"));
 	UGameplayStatics::SpawnEmitterAttached(Muzzle, Mesh, TEXT("MuzzleFlashSocket"));
-	auto OwnerPawn = Cast<APawn>(GetOwner());
-	if (!OwnerPawn) return;
-	auto OwnerController = OwnerPawn->GetController();
-	if (!OwnerController) return;
-	FVector Location;
-	FRotator Rotation;
-	OwnerController->GetPlayerViewPoint(Location, Rotation);
-	FVector End = Location+Rotation.Vector()*MaxRange;
 	FHitResult Hit;
-	FCollisionQueryParams Params;
-	Params.AddIgnoredActor(this);
-	Params.AddIgnoredActor(GetOwner());
-	if(GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1,Params)){
+	FRotator Rotation;
+	if(Raycast(Hit, Rotation)){
 		//DrawDebugPoint(GetWorld(), Hit.Location, 20, FColor::Red, true);
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Decal, Hit.ImpactPoint,Hit.ImpactNormal.Rotation());
 		auto Target = Hit.GetActor();
 		if (!Target) return;
 		FPointDamageEvent DamageEvent(DamageAmount,Hit,-Rotation.Vector(),nullptr);
-		Target->TakeDamage(DamageAmount,DamageEvent,OwnerController,this);
+		Target->TakeDamage(DamageAmount,DamageEvent,GetOwnerController(),this);
 	}
 }
 

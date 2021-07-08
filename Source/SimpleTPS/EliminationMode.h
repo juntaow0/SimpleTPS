@@ -15,5 +15,7 @@ class SIMPLETPS_API AEliminationMode : public ASimpleTPSGameModeBase
 	GENERATED_BODY()
 public:
 	virtual void PawnKilled(APawn* PawnKilled) override;
-	
+
+private:
+	void EndGame(bool bIsPlayerWon);
 };

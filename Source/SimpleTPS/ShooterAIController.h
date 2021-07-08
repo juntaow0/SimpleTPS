@@ -16,6 +16,9 @@ class SIMPLETPS_API AShooterAIController : public AAIController
 {
 	GENERATED_BODY()
 
+public:
+	bool IsDead();
+
 protected:
 	virtual void BeginPlay() override;
 

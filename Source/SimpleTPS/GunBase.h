@@ -36,6 +36,9 @@ private:
 	UPROPERTY(EditAnywhere, Category="Weapon Stats")
 	float DamageAmount = 34.0f;
 
+	bool Raycast(FHitResult& Hit, FRotator& Rotation);
+	AController* GetOwnerController() const;
+
 public:
 	void Fire();
 	void SecondaryFunction();
