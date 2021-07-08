@@ -43,7 +43,10 @@ void AGunBase::Fire()
 	OwnerController->GetPlayerViewPoint(Location, Rotation);
 	FVector End = Location+Rotation.Vector()*MaxRange;
 	FHitResult Hit;
-	if(GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1)){
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+	if(GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1,Params)){
 		//DrawDebugPoint(GetWorld(), Hit.Location, 20, FColor::Red, true);
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Decal, Hit.ImpactPoint,Hit.ImpactNormal.Rotation());
 		auto Target = Hit.GetActor();

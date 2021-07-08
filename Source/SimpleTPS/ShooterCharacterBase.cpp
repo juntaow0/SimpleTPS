@@ -3,6 +3,7 @@
 
 #include "ShooterCharacterBase.h"
 #include "GunBase.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 AShooterCharacterBase::AShooterCharacterBase()
@@ -57,6 +58,9 @@ float AShooterCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& 
 	if (Health<=0){
 		UE_LOG(LogTemp, Warning, TEXT("Actor died"));
 		IsAlive = false;
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 	}
 	return DamageToApply;
 }
