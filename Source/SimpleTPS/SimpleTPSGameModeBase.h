@@ -13,5 +13,8 @@ UCLASS()
 class SIMPLETPS_API ASimpleTPSGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	virtual void PawnKilled(APawn* PawnKilled);
 	
 };

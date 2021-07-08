@@ -4,6 +4,7 @@
 #include "ShooterCharacterBase.h"
 #include "GunBase.h"
 #include "Components/CapsuleComponent.h"
+#include "SimpleTPSGameModeBase.h"
 
 // Sets default values
 AShooterCharacterBase::AShooterCharacterBase()
@@ -58,9 +59,12 @@ float AShooterCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& 
 	if (Health<=0){
 		UE_LOG(LogTemp, Warning, TEXT("Actor died"));
 		IsAlive = false;
-		DetachFromControllerPendingDestroy();
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
+		auto GameMode = GetWorld()->GetAuthGameMode<ASimpleTPSGameModeBase>();
+		if (GameMode){
+			GameMode->PawnKilled(this);
+		}
+		DetachFromControllerPendingDestroy();
 	}
 	return DamageToApply;
 }

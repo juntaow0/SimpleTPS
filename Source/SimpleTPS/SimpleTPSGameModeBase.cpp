@@ -3,3 +3,9 @@
 
 #include "SimpleTPSGameModeBase.h"
 
+
+
+void ASimpleTPSGameModeBase::PawnKilled(APawn* PawnKilled) 
+{
+    
+}
