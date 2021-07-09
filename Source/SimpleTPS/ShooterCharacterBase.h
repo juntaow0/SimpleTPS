@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void FireWeapon();
 
+	UFUNCTION(BlueprintPure)
+	float GetHealthPercentage();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

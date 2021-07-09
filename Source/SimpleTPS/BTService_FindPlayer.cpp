@@ -19,7 +19,7 @@ void UBTService_FindPlayer::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* N
     auto AIController = OwnerComp.GetAIOwner();
     if (!Actor || !AIController) return;
     if (AIController->LineOfSightTo(Actor)){
-        OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(),Actor->GetActorLocation());
+        OwnerComp.GetBlackboardComponent()->SetValueAsObject(GetSelectedBlackboardKey(),Actor);
     }else{
         OwnerComp.GetBlackboardComponent()->ClearValue(GetSelectedBlackboardKey());
     }

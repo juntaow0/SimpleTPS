@@ -113,6 +113,11 @@ void AShooterCharacterBase::FireWeapon()
 	Gun->Fire();
 }
 
+float AShooterCharacterBase::GetHealthPercentage() 
+{
+	return Health/MaxHealth;
+}
+
 void AShooterCharacterBase::UseSecondaryFunction() 
 {
 	if (!Gun){
